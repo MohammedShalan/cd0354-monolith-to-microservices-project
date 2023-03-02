@@ -14,6 +14,12 @@ jobs:
           command: |
             docker --version
       - run:
+          name: Build Frontend Docker images 
+          command: |
+            docker build -t udagram-frontend ./udagram-frontend
+            docker tag udagram-frontend $DOCKER_USERNAME/udagram-frontend:v1
+            
+      - run:
           name: Build API Feed Docker images 
           command: |
             docker build -t udagram-api-feed ../udagram-api/udagram-api-feed
@@ -23,11 +29,7 @@ jobs:
           command: |
             docker build -t udagram-api-user ./udagram-api/udagram-api-user
             docker tag udagram-api-user $DOCKER_USERNAME/udagram-api-user:v1
-      - run:
-          name: Build Frontend Docker images 
-          command: |
-            docker build -t udagram-frontend ./udagram-frontend
-            docker tag udagram-frontend $DOCKER_USERNAME/udagram-frontend:v1
+      
       - run:
           name: Build Reverse proxy Docker image
           command: | 
