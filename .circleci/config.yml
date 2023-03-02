@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    docker:
+    #https://circleci.com/docs/building-docker-images/
+      - image: cimg/go:1.17
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD  
+          
+    steps:
+      - run:
+          name: Build API Feed Docker images 
+          command: |
+            docker build -t udagram-api-feed ./udagram-api/udagram-api-feed
+            docker tag udagram-api-feed $DOCKER_USERNAME/udagram-api-feed:v1
+      - run:
+          name: Build API User Docker images 
+          command: |
+            docker build -t udagram-api-user ./udagram-api/udagram-api-user
+            docker tag udagram-api-user $DOCKER_USERNAME/udagram-api-user:v1
+      - run:
+          name: Build Frontend Docker images 
+          command: |
+            docker build -t udagram-frontend ./udagram-frontend
+            docker tag udagram-frontend $DOCKER_USERNAME/udagram-frontend:v1
+      - run:
+          name: Build Reverse proxy Docker image
+          command: | 
+            docker build -t udagram-reverseproxy ./udagram-reverseproxy
+            docker tag udagram-reverseproxy $DOCKER_USERNAME/udagram-reverseproxy:v1
+      - run:
+          name: Run Docker Login
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - deploy:
+          name: Push application Docker images
+          command: |
+            docker push $DOCKER_USERNAME/udagram-api-feed:v1
+            docker push $DOCKER_USERNAME/udagram-api-user:v1
+            docker push $DOCKER_USERNAME/udagram-frontend:v1
+            docker push $DOCKER_USERNAME/udagram-reverseproxy:v1
+
+
