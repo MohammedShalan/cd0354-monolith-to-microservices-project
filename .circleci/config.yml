@@ -10,6 +10,10 @@ jobs:
           
     steps:
       - run:
+          name: Verify Docker version
+          command: |
+            docker --version
+      - run:
           name: Build API Feed Docker images 
           command: |
             docker build -t udagram-api-feed /udagram-api/udagram-api-feed
