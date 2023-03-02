@@ -14,6 +14,10 @@ jobs:
           command: |
             docker --version
       - run:
+          name: Pre Install
+          command: |
+            ls
+      - run:
           name: Build Frontend Docker images 
           command: |
             docker build -t udagram-frontend ./udagram-frontend
