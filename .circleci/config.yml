@@ -9,14 +9,15 @@ jobs:
           password: $DOCKER_PASSWORD  
           
     steps:
-      - checkout
-      
+      - checkout #check out source code to the configured path
+      - setup_remote_docker
+
       - run:
           name: Verify Docker version
           command: |
             docker --version
       - run:
-          name: Pre Install
+          name: run ls command
           command: |
             ls
       - run:
