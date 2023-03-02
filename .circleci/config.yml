@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Build API Feed Docker images 
           command: |
-            docker build -t udagram-api-feed ../udagram-api/udagram-api-feed
+            docker build -t udagram-api-feed ./udagram-api/udagram-api-feed
             docker tag udagram-api-feed $DOCKER_USERNAME/udagram-api-feed:v1
       - run:
           name: Build API User Docker images 
